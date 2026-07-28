@@ -226,17 +226,15 @@
       <div class="chartbox"><canvas id="rollVol"></canvas></div>
     </div>
 
-    <div class="grid2">
-      <div class="panel">
-        <h2>Overall Rating by Outlet</h2>
-        <p class="pnote">Blended rating (count-weighted across platforms). Beeline blends Google 5.0 (n=11) with OpenTable 4.1 (n=27).</p>
-        <div class="chartbox sm"><canvas id="rollRating"></canvas></div>
-      </div>
-      <div class="panel">
-        <h2>Response Rate by Outlet</h2>
-        <p class="pnote">Share of reviews with a property reply, where status is visible — Hotel via Tripadvisor, restaurants via OpenTable. Google/OTA pending GBP API.</p>
-        <div class="chartbox sm"><canvas id="rollResp"></canvas></div>
-      </div>
+    <div class="panel">
+      <h2>Overall Rating by Outlet</h2>
+      <p class="pnote">Blended rating (count-weighted across platforms). Beeline blends Google 5.0 (n=11) with OpenTable 4.1 (n=27).</p>
+      <div class="chartbox sm"><canvas id="rollRating"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Response Rate by Outlet</h2>
+      <p class="pnote">Share of reviews with a property reply. Hotel is across all channels (via Revinate); restaurants show the Google reply rate — OpenTable reply counts aren't exposed.</p>
+      <div class="chartbox sm"><canvas id="rollResp"></canvas></div>
     </div>
 
     <div class="panel">
@@ -747,7 +745,7 @@ function build(tab){
       {label:'Other OTAs',data:[152,0,0,0],backgroundColor:'#FCB400',borderRadius:3,stack:'s'}
     ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{footer:i=>'Total: '+i.reduce((a,b)=>a+b.parsed.y,0)}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:gridc}}}}});
     new Chart(rollRating,{type:'bar',data:{labels:['Appellation Healdsburg','Folia','Andys Beeline'],datasets:[{label:'Blended ★',data:[4.53,4.5,4.36],backgroundColor:[TA,SAGE,GOLD],borderRadius:5}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:2.5,max:5,grid:{color:gridc}},y:{grid:{display:false}}}}});
-    new Chart(rollResp,{type:'bar',data:{labels:[['Appellation','Healdsburg (TA)'],'Andys Beeline (OT)','Folia (OT)'],datasets:[{label:'Response rate %',data:[93,33,16],backgroundColor:[GREEN,SAGE,GOLD],borderRadius:5}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+'%'}}},scales:{x:{beginAtZero:true,max:100,grid:{color:gridc},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
+    new Chart(rollResp,{type:'bar',data:{labels:[['Appellation','Healdsburg'],'Folia (Google)','Andys Beeline (Google)'],datasets:[{label:'Response rate %',data:[70,21,0],backgroundColor:[GREEN,SAGE,GOLD],borderRadius:5}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+'%'}}},scales:{x:{beginAtZero:true,max:100,grid:{color:gridc},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
   }
   if(tab==='hotel'){
     // FULL cross-channel history via Revinate — 273 public reviews by review month (Sep25..Jun26)
