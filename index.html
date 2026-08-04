@@ -152,6 +152,21 @@
   .kpi .delta{font-size:11px;font-weight:700;margin-top:6px}
   .kpi .delta.up{color:var(--ta)}
   .kpi .delta.down{color:var(--ot)}
+
+  .sla .slahead{font-weight:700;font-size:14px;padding:11px 14px;border-radius:10px;margin-bottom:12px}
+  .sla .slahead.red{background:#FBEEEE;border:1px solid #E7C3C3;color:#b3322f}
+  .sla .slahead.green{background:#F0F6EC;border:1px solid #CDE3BE;color:var(--green)}
+  .slarow{display:flex;gap:11px;align-items:flex-start;padding:9px 6px;border-bottom:1px solid var(--line);font-size:13px}
+  .slarow .od{flex:0 0 auto;font-size:11px;font-weight:700;color:#fff;background:var(--ot);border-radius:6px;padding:3px 8px;white-space:nowrap}
+  .slarow .meta{color:var(--muted);font-size:12px;margin-bottom:2px}
+  .slarow .txt{color:var(--ink);line-height:1.45}
+  .sla .ctx{font-size:12px;color:var(--muted);margin-top:11px;line-height:1.5}
+  .slasum{display:flex;gap:10px;flex-wrap:wrap}
+  .slasum .c{flex:1 1 130px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+  .slasum .c.red{background:#FBEEEE;border-color:#E7C3C3}
+  .slasum .c .n{font-size:24px;font-weight:700;color:var(--ink)}
+  .slasum .c.red .n{color:var(--ot)}
+  .slasum .c .l{font-size:12px;color:var(--muted);font-weight:600}
 </style>
 </head>
 <body>
@@ -182,6 +197,12 @@
 
     <div class="flag">
       <strong>The property-wide story:</strong> guests rate the experience highly (the <strong>hotel sits at 4.53★ across 8 channels and 350 reviews</strong>, 86% at 4★+), and response discipline is now <strong>property-wide</strong> — the hotel answers <strong>244 of 350 (70%)</strong> across every channel via Revinate, and <strong>Folia's Google replies jumped to 24</strong> (from 1). Folia sits at 4.5★ (380 reviews), Beeline ~4.4★ (38). <span style="font-size:12px;color:#9a6a6a">(Hotel reply status now from Revinate across all channels; restaurant ratings from Google + OpenTable public profiles.)</span>
+    </div>
+
+    <div class="panel sla">
+      <h2>Needs Response · 48-Hour SLA — Property</h2>
+      <p class="pnote">Reviews past the 48-hour window across all outlets — live clock, refreshes with the daily data pull.</p>
+      <div id="sla-rollup"></div>
     </div>
 
     <div class="panel">
@@ -297,6 +318,12 @@
 
     <div class="flag win">
       <strong>The hotel is the property's anchor:</strong> <strong>350 reviews across 8 channels at 4.53★</strong>, led by Google (4.61) and Tripadvisor/Booking (4.53) on a deep OTA base (Expedia 70, Tiket 54, Hotels.com 35, Booking 29). 86% are 4★ or better. The recurring soft spot is <strong>value</strong> — guests love the stay but flag food and spa pricing.
+    </div>
+
+    <div class="panel sla">
+      <h2>Needs Response · 48-Hour SLA</h2>
+      <p class="pnote">Public reviews past 48 hours without a management reply, from the last 30 days — live clock. <span class="tag">All channels via Revinate</span></p>
+      <div id="sla-hotel"></div>
     </div>
 
     <div class="panel" style="border-left:5px solid var(--green)">
@@ -489,6 +516,12 @@
       <strong>Worth flagging:</strong> Folia now carries <strong>380 reviews at 4.5★</strong> — 267 on OpenTable (4.5) and 113 on Google (4.5). Google replies have jumped to <strong>24 of 113</strong> (from 1), and OpenTable's team is actively responding on recent reviews.
     </div>
 
+    <div class="panel sla">
+      <h2>Needs Response · 48-Hour SLA</h2>
+      <p class="pnote">Google reviews past 48 hours without a reply, last 30 days — live clock. <span class="tag api">OpenTable reply tracking pending</span></p>
+      <div id="sla-folia"></div>
+    </div>
+
     <div class="panel">
       <h2>Sentiment by Theme — Consistent Feedback Patterns</h2>
       <p class="pnote">Each of 212 OpenTable reviews is tagged to the themes its text mentions; cell color is the average star rating those reviewers gave that month. <span class="tag api">OpenTable only — Google text pending API</span></p>
@@ -557,6 +590,12 @@
     </div>
     <div class="flag">
       <strong>Where it sits now:</strong> OpenTable shows <strong>4.1★ across 27 reviews</strong> (Food 4.0, Service 4.3, Ambience 4.6, Value 3.7); Google is <strong>5.0 across 11</strong>. The rooftop view and service carry it — <strong>food and value stay the soft spots</strong>.
+    </div>
+
+    <div class="panel sla">
+      <h2>Needs Response · 48-Hour SLA</h2>
+      <p class="pnote">Google reviews past 48 hours without a reply, last 30 days — live clock. <span class="tag api">OpenTable reply tracking pending</span></p>
+      <div id="sla-beeline"></div>
     </div>
 
     <div class="panel">
@@ -635,6 +674,12 @@
 
     <div class="flag">
       <strong>Two ways to read the spa.</strong> Its standalone <em>public</em> profile is thin — 4.0★ across 2 Google reviews. But the property's post-stay survey already gives Terroir a real, measured score: <strong>9.26/10 from 70 guests</strong> (below). The opportunity is to convert that satisfaction into public reviews with a post-treatment prompt.
+    </div>
+
+    <div class="panel sla">
+      <h2>Needs Response · 48-Hour SLA</h2>
+      <p class="pnote">Google reviews past 48 hours without a reply, last 30 days — live clock. <span class="tag api">Yelp / other channels pending</span></p>
+      <div id="sla-spa"></div>
     </div>
 
     <div class="panel">
@@ -888,6 +933,33 @@ function setHotelPeriod(p){var d=HPER[p]; if(!d)return;
 }
 document.querySelectorAll('#hotelFilter .pf').forEach(function(b){b.addEventListener('click',function(){setHotelPeriod(b.dataset.hp);});});
 setHotelPeriod('all');
+</script>
+<script>
+const SLA={"hotel": [{"ch": "Google", "ts": 1784419200, "r": 5.0, "t": ""}, {"ch": "Hotels.com", "ts": 1784419200, "r": 5.0, "t": "We travel often. This hotel, facilities, staff, and proximity to everything we had planned was perfect! Withou"}, {"ch": "Google", "ts": 1784332800, "r": 5.0, "t": "I was there for a birthday dinner at Folia. Fabulous atmosphere. Staff/Service was impeccable. The food, the f"}, {"ch": "Expedia", "ts": 1784332800, "r": 5.0, "t": ""}, {"ch": "TripAdvisor", "ts": 1784246400, "r": 5.0, "t": "Relaxing getaway — Excellent in every way. Well manicured property which wasn't very crowded so perfect for re"}, {"ch": "TripAdvisor", "ts": 1784246400, "r": 3.0, "t": "Good hotel — Overall, I like this new hotel. Hardware side - it's all good. The pool and Jacuzzi is wonderful."}, {"ch": "TripAdvisor", "ts": 1784246400, "r": 5.0, "t": "Unexpected luxury and gourmet meals. The pictures don’t do justice — Had not heard of this new resort and were"}, {"ch": "TripAdvisor", "ts": 1784246400, "r": 5.0, "t": "Highly recommend — Great location just a few minutes outside of Healdsburg. Wonderful new hotel with thoughtfu"}, {"ch": "Expedia", "ts": 1784073600, "r": 5.0, "t": "The staff was so friendly, the food at breakfast and at room service was really delicious, and they were so fr"}, {"ch": "TripAdvisor", "ts": 1783900800, "r": 5.0, "t": "Amazing Stay — We were met with an elevated, unique, & personable experience. The property is clean and beauti"}, {"ch": "TripAdvisor", "ts": 1783900800, "r": 5.0, "t": "Incredible staff leads to award-winning status — We had a lovely stay at Appellation Healdsburg. The property "}, {"ch": "Booking.com", "ts": 1782345600, "r": 4.5, "t": "Good: The hotel was new, modern and the grounds were beautiful. The staff was warm, welcoming and very accommo"}, {"ch": "Booking.com", "ts": 1782259200, "r": 3.5, "t": "Nice hotel but improvements needed — Good: New and modern Bad: You can hear everything the walls are very thin"}, {"ch": "Expedia", "ts": 1781654400, "r": 1.0, "t": ""}, {"ch": "TripAdvisor", "ts": 1781395200, "r": 1.0, "t": "Improvements need to be made, especially with check-in experience — Arrived at the hotel at 3:15 pm and both o"}, {"ch": "Google", "ts": 1781395200, "r": 2.0, "t": "Needs work. This hotel is not to be taken seriously. Facilities are new, nice and comfortable. Service at Foli"}], "folia": [{"ch": "Google", "ts": 1784440800, "r": 5, "t": "The atmosphere at Folia restaurant was absolutely wonderful, so I arm and friendly, and so beautifully done. T"}, {"ch": "Google", "ts": 1784440800, "r": 5, "t": "Phenomenal. We did the tasting menu with the wine pairing and every course delivered. Dominic led our service "}, {"ch": "Google", "ts": 1784440800, "r": 5, "t": "We stayed at the Appelation hotel and went to the bar multiple times during our stay. Leah was AMAZING. Certai"}, {"ch": "Google", "ts": 1784440800, "r": 5, "t": "We had the testing menu, and will come back for sure for a la carte. Cucumber salad, pesto pasta and beef were"}, {"ch": "Google", "ts": 1784440800, "r": 5, "t": "Incredible food and standout service! The chef's menu and the affordable wine pairing were both phenomenal. Do"}, {"ch": "Google", "ts": 1784181600, "r": 5, "t": "Excellent ! Delicious food, great service, & the atmosphere is elegant, but unpretentious. Silverware ‘placeme"}, {"ch": "Google", "ts": 1784008800, "r": 5, "t": "What a wonderful experience! The atmosphere was relaxed yet elevated, making for an enjoyable dining experienc"}, {"ch": "Google", "ts": 1783058400, "r": 5, "t": "Just an outstanding evening. Was able to meet Charlie Palmer in person (I have been a long time fan). He was s"}, {"ch": "Google", "ts": 1782540000, "r": 5, "t": "Our server, Samantha, was efficient and friendly. We had a delicious salmon meal outside in the lovely patio a"}, {"ch": "Google", "ts": 1782540000, "r": 5, "t": "Every dish incredibly delicious. On Father's Day we tried the tasting menu and wine pairing. We weren't sure w"}, {"ch": "Google", "ts": 1782453600, "r": 5, "t": "My wife and I thoroughly enjoyed Folia. Layla is the GREATEST server, the food was excellent, the wine selecti"}, {"ch": "Google", "ts": 1782021600, "r": 5, "t": "Folia was amazing! Dominic was phenomenal — he gave great suggestions and was engaging. We got the duck croque"}, {"ch": "Google", "ts": 1782021600, "r": 5, "t": "The food was lovely and Dominic was very attentive!"}, {"ch": "Google", "ts": 1782021600, "r": 5, "t": "Everything about this restaurant was lovely Including and mostly zadie. She was so knowledgeable and helpful. "}, {"ch": "Google", "ts": 1782021600, "r": 5, "t": "Chef’s six-course tasting menu, with wine pairing, was delicious. Dominic (our server) was delightful. It was "}, {"ch": "Google", "ts": 1782021600, "r": 5, "t": "Lovely atmosphere and had the best waiter, Dominic. Will definitely be coming back!"}, {"ch": "Google", "ts": 1781848800, "r": 5, "t": ""}, {"ch": "Google", "ts": 1781848800, "r": 5, "t": ""}], "beeline": [{"ch": "Google", "ts": 1784181600, "r": 5, "t": "Upstairs from Folia. Nice quiet atmosphere. Dress casual or dress up. Tasty cocktails & good selection of wine"}, {"ch": "Google", "ts": 1782972000, "r": 5, "t": "Paulina was fantastic as our server. She was fun, accommodating, knowledgeable, and very efficient in getting "}], "spa": [{"ch": "Google", "ts": 1782626400, "r": 3, "t": "We had a great massage but a few things made the experience less than stellar. For one, we were not greeted wh"}]};
+const SLA_CTX={"hotel": 106, "folia": 89, "beeline": 11, "spa": 2};
+function slaEsc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function slaOverdue(arr){var now=Date.now()/1000;return arr.filter(function(x){return (now-x.ts)/3600>48;}).sort(function(a,b){return b.ts-a.ts;});}
+function slaRows(od){var now=Date.now()/1000;return od.map(function(x){
+  var days=Math.floor((now-x.ts)/86400); var d=new Date(x.ts*1000);
+  var ds=(d.getMonth()+1)+'/'+d.getDate(); var stars='\u2605'.repeat(Math.round(x.r||0));
+  return '<div class="slarow"><span class="od">'+days+'d overdue</span><div><div class="meta">'+ds+' \u00b7 '+slaEsc(x.ch)+' \u00b7 '+stars+'</div>'+(x.t?'<div class="txt">'+slaEsc(x.t)+'</div>':'')+'</div></div>';
+}).join('');}
+function renderSLA(id,key){
+  var host=document.getElementById(id); if(!host)return;
+  var od=slaOverdue(SLA[key]||[]); var h='';
+  if(od.length){h+='<div class="slahead red">\u26a0 '+od.length+' review'+(od.length>1?'s':'')+' past the 48-hour response window \u2014 respond ASAP</div>'+slaRows(od);}
+  else{h+='<div class="slahead green">\u2713 All caught up \u2014 nothing past the 48-hour window</div>';}
+  h+='<div class="ctx">'+(SLA_CTX[key]||0)+' reviews still unanswered overall (this queue shows the last 30 days; older items age out).</div>';
+  host.innerHTML=h;
+}
+function renderSLARollup(){
+  var host=document.getElementById('sla-rollup'); if(!host)return;
+  var outs=[['hotel','Appellation Healdsburg'],['folia','Folia'],['beeline','Andys Beeline'],['spa','Terroir Spa']];
+  var total=0; var cards=outs.map(function(o){var n=slaOverdue(SLA[o[0]]||[]).length; total+=n; return '<div class="c'+(n?' red':'')+'"><div class="n">'+n+'</div><div class="l">'+o[1]+'</div></div>';}).join('');
+  var head=total? '<div class="slahead red">\u26a0 '+total+' review'+(total>1?'s':'')+' past the 48-hour window across the property</div>' : '<div class="slahead green">\u2713 All outlets caught up</div>';
+  host.innerHTML=head+'<div class="slasum">'+cards+'</div>';
+}
+renderSLA('sla-hotel','hotel');renderSLA('sla-folia','folia');renderSLA('sla-beeline','beeline');renderSLA('sla-spa','spa');renderSLARollup();
 </script>
 </body>
 </html>
