@@ -281,10 +281,10 @@
     <div class="notes">
       <h2>How to read this dashboard</h2>
       <ul>
-        <li><strong>The hotel tab</strong> is powered by the <strong>Revinate Porter API</strong> — 273 public reviews across 8 channels (Google, Expedia, Tripadvisor, Tiket, Hotels.com, Booking, Agoda, Orbitz), each with exact date and star rating. 580 internal post-stay surveys are tracked separately (NPS scale).</li>
+        <li><strong>The hotel tab</strong> is powered by the <strong>Revinate Porter API</strong> — 350 public reviews across 8 channels (Google, Expedia, Tripadvisor, Tiket, Hotels.com, Booking, Agoda, Orbitz), each with exact date and star rating. 721 internal post-stay surveys are tracked separately (NPS scale).</li>
         <li><strong>OpenTable</strong> (Folia, Beeline) is exact and complete — every written review read directly with date, star rating, reply status, and text (powering the sentiment heat maps).</li>
-        <li><strong>Google for the outlets</strong> (Folia, Beeline, Terroir): counts and ratings are exact from the public panel; monthly is estimated from dated reviews, and review <em>text</em> is <span class="tag api">pending the Business Profile API</span> (~June 22).</li>
-        <li><strong>Property-reply status</strong> is exact on OpenTable (restaurants) and read directly from Tripadvisor for the hotel — the GM answers 93% (50 of 54). Google/OTA reply status lands with the GBP API.</li>
+        <li><strong>Google for the outlets</strong> (Folia, Beeline, Terroir): counts, ratings, and review text are now pulled from the <span class="tag">Google Business Profile API</span>; monthly is estimated from dated reviews.</li>
+        <li><strong>Property-reply status</strong> now comes through Revinate across every hotel channel — the property answers 70% (244 of 350). Restaurant reply status is read from Google + OpenTable.</li>
         <li>This is a <strong>snapshot</strong>. Auto-refresh (Revinate + OpenTable re-pull → redeploy) is being wired on a schedule.</li>
       </ul>
     </div>
@@ -296,7 +296,7 @@
         <strong>The opportunity:</strong> response rate is the single biggest gap across the property. Letting GMs reply in one place — instead of logging into five portals — would lift reply rates and response speed, which directly improve ranking and conversion on Google &amp; the OTAs.
         <ul style="margin:10px 0 0;padding-left:18px">
           <li><b>Phase 1 — deep links (fast).</b> Each review card links straight to its native reply screen (Google Business Profile, OpenTable for Restaurants, Tripadvisor Management Center, the Revinate console for OTAs). No new permissions; days of work.</li>
-          <li><b>Phase 2 — reply inline (Google first).</b> The Google Business Profile API exposes a reply endpoint (<span class="tag">reviews.updateReply</span>) — once our allowlist clears (~June 22), GMs could post Google replies from here directly.</li>
+          <li><b>Phase 2 — reply inline (Google first).</b> The Google Business Profile API exposes a reply endpoint (<span class="tag">reviews.updateReply</span>) — with our Google Business Profile API access now live, GMs could post Google replies from here directly.</li>
           <li><b>Phase 3 — OTAs via Revinate.</b> Revinate's reputation product can post responses to many OTA channels; we'd confirm whether its API (beyond the read-only Porter feed we use now) supports programmatic replies, then route Expedia/Booking/Hotels.com through it.</li>
           <li><b>What it needs:</b> a lightweight auth layer (so only authorized GMs can post), an approval step, and a small write-capable backend — a natural fit for the GitHub + database move we're already planning for auto-refresh.</li>
         </ul>
@@ -328,7 +328,7 @@
 
     <div class="panel" style="border-left:5px solid var(--green)">
       <h2>At a Glance — What to Focus On</h2>
-      <p class="pnote">The operator read across both signals — public reviews (273 across 8 channels, via Revinate) and the post-stay survey (721 responses). <span class="tag api">Full third-party + post-stay merge pending live data pull</span></p>
+      <p class="pnote">The operator read across both signals — public reviews (350 across 8 channels, via Revinate) and the post-stay survey (721 responses). <span class="tag api">Full third-party + post-stay merge pending live data pull</span></p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
         <div style="background:#F0F6EC;border:1px solid #CDE3BE;border-radius:12px;padding:14px 16px">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--green);font-weight:700">Overall health · strong</div>
@@ -344,7 +344,7 @@
         </div>
         <div style="background:#FAF8F0;border:1px solid var(--line);border-radius:12px;padding:14px 16px">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700">Keep it up · Responses</div>
-          <div style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.5">The GM answers 93% on Tripadvisor (50 of 54). Extend the same cadence to Google &amp; the OTAs as the API enables it.</div>
+          <div style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.5">The property now answers 70% across all channels (244 of 350), visible via Revinate. Keep the newest reviews inside the 48-hour window.</div>
         </div>
       </div>
       <div style="margin-top:14px;font-size:13px;color:#4f5a42;background:#FBFDF8;border:1px solid #DCE7CF;border-radius:10px;padding:12px 14px;line-height:1.5">
@@ -354,7 +354,7 @@
 
     <div class="panel">
       <h2>Review Volume by Month</h2>
-      <p class="pnote">All 273 public reviews, stacked across 8 channels by review date — exact, via Revinate. Sep '25–Jun '26.</p>
+      <p class="pnote">All 350 public reviews, stacked across 8 channels by review date — exact, via Revinate. Sep '25–Jul '26.</p>
       <div class="chartbox"><canvas id="hotelVol"></canvas></div>
     </div>
 
@@ -482,7 +482,7 @@
         <li class="hi"><span class="pri">2</span><b>Confirm the HVAC noise fix.</b> A 1★ guest reported "screeching drilling sounds inside the walls… hotel-wide." Verify remediation status, hold/flag affected rooms, and service-recover the guest directly. <span class="src">— TA Apr 10 (1★)</span></li>
         <li class="med"><span class="pri">3</span><b>Tighten F&amp;B service consistency.</b> "Service is not good at all. Very slow. Waiters don't know the menu." Reinforce menu training and pacing standards. <span class="src">— TA May 12 (3★)</span></li>
         <li class="med"><span class="pri">4</span><b>Revisit the pool presentation.</b> "The pool looks like one you'd see at a Motel 6." Review furnishings/styling against the rate positioning. <span class="src">— TA May 12</span></li>
-        <li class="lo"><span class="pri">5</span><b>Extend the GM's reply discipline.</b> Tripadvisor is a strength — the GM answers 93% (50 of 54). Keep it current (the four newest still open) and bring the same cadence to Google &amp; the OTAs once the API enables it. <span class="src">— TA 50 of 54</span></li>
+        <li class="lo"><span class="pri">5</span><b>Extend the GM's reply discipline.</b> Property responses are now visible across all channels via Revinate — 244 of 350 (70%). Prioritize the newest reviews inside the 48-hour window (see the SLA queue above). <span class="src">— 244 of 350</span></li>
       </ul>
     </div>
 
@@ -498,7 +498,7 @@
     </div>
 
     <p style="font-size:11px;color:var(--muted);line-height:1.5;margin:2px 4px 0;border-top:1px solid var(--line);padding-top:10px">
-      <strong>Source:</strong> this tab is powered by the Revinate Porter API, which aggregates the property's reviews across 100+ sites — so volume, ratings, and monthly trend are exact across all 8 channels, no estimation. Property-reply status isn't in Revinate's feed, so it's read directly from Tripadvisor (Google/OTA reply status arrives with the GBP API ~June 22). The 580 internal post-stay surveys use a separate NPS scale and are surfaced in the Guest Survey section above.
+      <strong>Source:</strong> this tab is powered by the Revinate Porter API, which aggregates the property's reviews across 100+ sites — so volume, ratings, and monthly trend are exact across all 8 channels, no estimation. Property-reply status now comes through Revinate across every channel — 244 of 350 answered (70%). The 721 internal post-stay surveys use a separate NPS scale and are surfaced in the Guest Survey section above.
     </p>
   </section>
 
@@ -539,7 +539,7 @@
         <li class="hi"><span class="pri">2</span><b>Bring brunch up to the dinner standard.</b> Repeated split: "Folia for dinner is a must, 5 stars… brunch was a letdown," plus "very slow, uneven service — fries arrived at the end, had to ask to clear dishes." Staff and pace brunch to match dinner. <span class="src">— OpenTable May 11, May 21, May 31 (2★)</span></li>
         <li class="med"><span class="pri">3</span><b>Kitchen consistency check.</b> A 1★ cited "pork collar had a lot of gritty pieces." Tighten plate-level QC on proteins. <span class="src">— OpenTable May 2 (1★)</span></li>
         <li class="med"><span class="pri">4</span><b>Smooth reservations &amp; seating.</b> The weakest sentiment theme (3.45★, 50/50) — review the seating/reservation flow at peak. <span class="src">— Heat map, all-time</span></li>
-        <li class="lo"><span class="pri">5</span><b>Lift reply rate.</b> Reply rate has climbed to <b>16% on OpenTable</b> (35 replies, mostly May–Jun) — keep it going; respond to every ≤3★ within 48 hours. <span class="src">— 36 of 288</span></li>
+        <li class="lo"><span class="pri">5</span><b>Lift reply rate.</b> Close the Google reply gap — <b>89 of 113 Google reviews have no reply</b>. Work the SLA queue above and answer new reviews within 48 hours. <span class="src">— Google 24 of 113 replied</span></li>
       </ul>
     </div>
 
@@ -568,7 +568,7 @@
     <div class="notes">
       <h2>Data Notes — Folia</h2>
       <ul>
-        <li><strong>OpenTable</strong> — complete and exact: 216 written reviews read directly. (The "4.6 recent" headline folds in ratings-only entries; the 216-review written average is 4.31.)</li>
+        <li><strong>OpenTable</strong> — from the public profile: 267 reviews at 4.5★ (Food 4.5, Service 4.5, Ambience 4.7, Value 4.3).</li>
         <li><strong>Google</strong> — totals/rating/distribution/responses are exact (72, 4.5★, 1 reply). Monthly split is <strong>estimated</strong> from week-level dates and reconciles to 72.</li>
         <li><strong>Sentiment</strong> is scored by each reviewer's own star rating, not an inferred model. Google text folds in once the Business Profile API is live.</li>
       </ul>
@@ -626,7 +626,7 @@
     </div>
 
     <div class="grid2">
-      <div class="panel"><h2>Rating Distribution</h2><p class="pnote">OpenTable written reviews, 1–5★ (n=21).</p><div class="chartbox sm"><canvas id="beeDist"></canvas></div></div>
+      <div class="panel"><h2>Rating Distribution</h2><p class="pnote">OpenTable written reviews, 1–5★ (n=27).</p><div class="chartbox sm"><canvas id="beeDist"></canvas></div></div>
       <div class="panel"><h2>Property Responses by Month</h2><p class="pnote">Management replies on OpenTable. Clustered at opening — none since Oct '25.</p><div class="chartbox sm"><canvas id="beeResp"></canvas></div></div>
     </div>
 
@@ -655,7 +655,7 @@
     <div class="notes">
       <h2>Data Notes — Andys Beeline</h2>
       <ul>
-        <li><strong>OpenTable</strong> — exact: 21 written reviews. Subscores (recent basis): Ambience 4.6, Service 4.4, Food 3.9, Value 3.9, <strong>Noise 2.0</strong>.</li>
+        <li><strong>OpenTable</strong> — from the public profile: 27 reviews at 4.1★. Subscores: Ambience 4.6, Service 4.3, Food 4.0, Value 3.7.</li>
         <li><strong>Google</strong> — 5.0★ from just 8 reviews; small sample, so the blended ~4.2 leans on OpenTable's larger base.</li>
         <li>Theme sentiment from 21 reviews is directional, not statistically deep — low-mention themes are flagged.</li>
       </ul>
@@ -684,7 +684,7 @@
 
     <div class="panel">
       <h2>Guest Survey — Spa Signal</h2>
-      <p class="pnote">From the property's 589 post-stay surveys (Revinate): the Spa is scored as its own line item and flagged in "areas that affected my stay." This is the spa's most reliable feedback today — far deeper than its single public review. <span class="tag">Revinate Surveys</span></p>
+      <p class="pnote">From the property's 721 post-stay surveys (Revinate): the Spa is scored as its own line item and flagged in "areas that affected my stay." This is the spa's most reliable feedback today — far deeper than its single public review. <span class="tag">Revinate Surveys</span></p>
       <div class="kpis" style="margin-bottom:0">
         <div class="kpi good"><div class="label">Spa Satisfaction</div><div class="val">9.24<span style="font-size:15px;color:var(--muted)"> /10</span></div><div class="note">83 guests rated the spa</div></div>
         <div class="kpi"><div class="label">Cited "Affected My Stay"</div><div class="val">83</div><div class="note">of 721 surveys named the spa</div></div>
@@ -698,7 +698,7 @@
 
     <div class="panel">
       <h2>Review Volume by Month</h2>
-      <p class="pnote">Only one standalone review exists, so there's no monthly trend yet. <span class="tag api">Builds once review volume grows / GBP API is live</span></p>
+      <p class="pnote">Only one standalone review exists, so there's no monthly trend yet. <span class="tag api">Builds as spa review volume grows</span></p>
       <div class="empty" style="padding:30px">No monthly volume to chart — Terroir Spa has 1 standalone Google review to date. As guests are prompted to review the spa directly, this fills in like the Folia and Beeline tabs.</div>
     </div>
 
@@ -718,7 +718,7 @@
     <div class="panel">
       <h2>Sentiment by Theme</h2>
       <p class="pnote">Theme-level sentiment heat map, as shown on the other tabs.</p>
-      <div class="empty" style="padding:26px">Not enough standalone reviews to chart themes yet — Terroir has a single Google review and no review text feed of its own. As spa-specific reviews accrue (and once the GBP API delivers text), this fills in with the same month × theme grid as Folia, Beeline, and the hotel. In the meantime, spa sentiment is captured within the hotel's <strong>Facilities</strong> theme and the <em>value</em> commentary.</div>
+      <div class="empty" style="padding:26px">Not enough standalone reviews to chart themes yet — Terroir has just 2 Google reviews and little standalone text of its own. As spa-specific reviews accrue (and once the GBP API delivers text), this fills in with the same month × theme grid as Folia, Beeline, and the hotel. In the meantime, spa sentiment is captured within the hotel's <strong>Facilities</strong> theme and the <em>value</em> commentary.</div>
     </div>
 
     <div class="panel">
@@ -726,7 +726,7 @@
       <div class="notes" style="margin:0;background:#FFFDF5">
         <ul>
           <li><strong>Drive review volume to the existing GBP</strong> — a post-treatment prompt (text/email with the direct review link) is the fastest way to turn 1 review into a credible spa-specific rating.</li>
-          <li><strong>Business Profile API</strong> (pending ~June 22) will then let this tab pull exact spa volume, rating, and review text — same as the other outlets.</li>
+          <li>The <strong>Google Business Profile API</strong> is now live and pulls the spa's Google rating and reviews (currently 2); this fills in as spa review volume grows.</li>
           <li>Interim: I can tag and surface every <strong>spa mention inside hotel reviews</strong> (Tripadvisor + Google once API is live) as a proxy sentiment layer.</li>
         </ul>
       </div>
@@ -790,10 +790,10 @@ function build(tab){
   if(built[tab]) return; built[tab]=true;
   if(tab==='rollup'){
     new Chart(rollVol,{type:'bar',data:{labels:[['Appellation','Healdsburg'],'Folia',['Andys','Beeline'],['Terroir','Spa']],datasets:[
-      {label:'Google',data:[66,72,8,1],backgroundColor:GOOG,borderRadius:3,stack:'s'},
-      {label:'OpenTable',data:[0,216,21,0],backgroundColor:OT,borderRadius:3,stack:'s'},
-      {label:'Tripadvisor',data:[55,0,0,0],backgroundColor:TA,borderRadius:3,stack:'s'},
-      {label:'Other OTAs',data:[152,0,0,0],backgroundColor:'#FCB400',borderRadius:3,stack:'s'}
+      {label:'Google',data:[85,113,11,2],backgroundColor:GOOG,borderRadius:3,stack:'s'},
+      {label:'OpenTable',data:[0,267,27,0],backgroundColor:OT,borderRadius:3,stack:'s'},
+      {label:'Tripadvisor',data:[73,0,0,0],backgroundColor:TA,borderRadius:3,stack:'s'},
+      {label:'Other OTAs',data:[192,0,0,0],backgroundColor:'#FCB400',borderRadius:3,stack:'s'}
     ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{footer:i=>'Total: '+i.reduce((a,b)=>a+b.parsed.y,0)}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:gridc}}}}});
     new Chart(rollCombo,{type:'bar',data:{labels:['Appellation Healdsburg','Folia','Andys Beeline'],datasets:[
       {label:'Overall rating (★)',data:[4.53,4.5,4.36],backgroundColor:GREEN,yAxisID:'yRating',borderRadius:5},
@@ -801,7 +801,7 @@ function build(tab){
     ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:14}},tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='yResp'?c.dataset.label+': '+c.parsed.y+'%':c.dataset.label+': '+c.parsed.y+'★'}}},scales:{x:{grid:{display:false}},yRating:{type:'linear',position:'left',min:2.5,max:5,title:{display:true,text:'Rating ★'},grid:{color:gridc}},yResp:{type:'linear',position:'right',min:0,max:100,title:{display:true,text:'Response %'},grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%'}}}}});
   }
   if(tab==='hotel'){
-    // FULL cross-channel history via Revinate — 273 public reviews by review month (Sep25..Jun26)
+    // FULL cross-channel history via Revinate — 350 public reviews by review month (Sep25..Jul26)
     const HCH=[
       {n:'Google',     c:'#4285F4', d:[11,6,7,6,7,4,12,5,8,9,10]},
       {n:'Expedia',    c:'#FCB400', d:[4,6,10,5,5,5,11,8,4,7,5]},
@@ -949,7 +949,7 @@ function renderSLA(id,key){
   var od=slaOverdue(SLA[key]||[]); var h='';
   if(od.length){h+='<div class="slahead red">\u26a0 '+od.length+' review'+(od.length>1?'s':'')+' past the 48-hour response window \u2014 respond ASAP</div>'+slaRows(od);}
   else{h+='<div class="slahead green">\u2713 All caught up \u2014 nothing past the 48-hour window</div>';}
-  h+='<div class="ctx">'+(SLA_CTX[key]||0)+' reviews still unanswered overall (this queue shows the last 30 days; older items age out).</div>';
+  h+='<div class="ctx">'+(SLA_CTX[key]||0)+' reviews still unanswered overall (this queue shows the last 90 days; older items age out).</div>';
   host.innerHTML=h;
 }
 function renderSLARollup(){
@@ -959,7 +959,34 @@ function renderSLARollup(){
   var head=total? '<div class="slahead red">\u26a0 '+total+' review'+(total>1?'s':'')+' past the 48-hour window across the property</div>' : '<div class="slahead green">\u2713 All outlets caught up</div>';
   host.innerHTML=head+'<div class="slasum">'+cards+'</div>';
 }
-renderSLA('sla-hotel','hotel');renderSLA('sla-folia','folia');renderSLA('sla-beeline','beeline');renderSLA('sla-spa','spa');renderSLARollup();
+function renderAllSLA(){renderSLA('sla-hotel','hotel');renderSLA('sla-folia','folia');renderSLA('sla-beeline','beeline');renderSLA('sla-spa','spa');renderSLARollup();}
+// Paint immediately with the built-in snapshot (offline fallback), then refresh live from Supabase.
+renderAllSLA();
+(function(){
+  var SB_URL='https://afkjchshoktlmqrpopyk.supabase.co/rest/v1/rev_reviews';
+  var SB_KEY='sb_publishable_-prKRSiYudfdwYxC1o4Rbw_PZlcJt89';
+  var CH={google:'Google',tripadvisor:'TripAdvisor',expedia:'Expedia',booking:'Booking.com',hotels:'Hotels.com',tiket:'Tiket.com',agoda:'Agoda',orbitz:'Orbitz',opentable:'OpenTable'};
+  fetch(SB_URL+'?select=outlet_id,source,stars,title,body,review_date,has_reply&order=review_date.desc',
+        {headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}})
+   .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+   .then(function(rows){
+     if(!Array.isArray(rows)||!rows.length)return; // keep fallback if empty
+     var live={hotel:[],folia:[],beeline:[],spa:[]}, ctx={hotel:0,folia:0,beeline:0,spa:0};
+     rows.forEach(function(x){
+       var o=x.outlet_id; if(!(o in live))return;
+       if(x.has_reply)return;            // SLA queue = unanswered only
+       ctx[o]++;
+       var ts=Math.floor(new Date((x.review_date||'')+'T12:00:00Z').getTime()/1000);
+       var txt=((x.title?x.title+' — ':'')+(x.body||'')).slice(0,110);
+       live[o].push({ch:CH[x.source]||x.source||'',ts:ts,r:x.stars,t:txt});
+     });
+     // Swap in live data and re-render.
+     Object.keys(live).forEach(function(k){SLA[k]=live[k];SLA_CTX[k]=ctx[k];});
+     renderAllSLA();
+     var st=document.getElementById('sla-live-status'); if(st){var d=new Date();st.textContent='Live · reply status as of '+d.toLocaleString();}
+   })
+   .catch(function(e){/* offline / blocked: silently keep the built-in snapshot */});
+})();
 </script>
 </body>
 </html>
