@@ -1,6 +1,6 @@
 ---
 name: email-intelligence-report
-description: Audit a mailbox to find what the org actually does day to day and which of it can be automated. Produces the Appellation Email Intelligence Report — executive summary, recurring inbound/outbound patterns, dominant themes, people map, workflows with decision points, decision sequences, ranked pain points with automation opportunities, and timing patterns. Use when asked to "run the email analyzer", "analyse someone's mailbox", "find automation opportunities in email", "what does X spend their time on", "email intelligence report", or to onboard a new person or department to the AI programme. Rebuild of the original Trellis email analyzer at appellation.th1.ai/email-analyzer.
+description: Audit a mailbox to find what the org actually does day to day and which of it can be automated. Produces the Appellation Email Intelligence Report — executive summary, recurring inbound/outbound patterns, dominant themes, people map, workflows with decision points, decision sequences, ranked pain points with automation opportunities, and timing patterns. Use when asked to "run the email analyzer", "analyse someone's mailbox", "find automation opportunities in email", "what does X spend their time on", "email intelligence report", or to onboard a new person or department to the AI programme.
 ---
 
 # Email Intelligence Report
@@ -150,8 +150,10 @@ contains personal data.** Publishing it as an artifact may be blocked, and that
 block is correct — do not attempt to route around it.
 
 Deliver the file directly, and let the requester decide where it goes. If they
-want it hosted, a private Trellis board behind their login is the right home,
-not a public URL.
+want it hosted, it belongs on an authenticated static host behind a login — the
+report is one self-contained HTML file with no build step, so any host that can
+serve a file and check a sign-in will do. Never a public URL, and never emailed
+to a distribution list.
 
 ## Honesty rules
 
