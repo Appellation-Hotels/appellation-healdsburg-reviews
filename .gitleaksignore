@@ -2,3 +2,12 @@
 # (e.g. a public "anon"/publishable key). One per line, in the form
 # <commit>:<path>:<rule-id>:<line>, with a comment saying why it is safe.
 # Real secrets never go here: rotate them instead.
+
+# gitleaks fingerprints reviewed 2026-09-02 - all verified public-by-design, no live credential.
+
+# Supabase publishable key (sb_publishable_...) - designed for browser use
+1fd6c48fc23fa5471d9156a9b70d44487cc956f7:index.html:generic-api-key:210
+be328b67cf6fd95459b3214e66e2f7a9ed37db98:index.html:generic-api-key:249
+2c6642df98ff12d1a3609b1b235a7f936529e3bd:index.html:generic-api-key:249
+77d4a1c38cea5ed9661b800d2d31ead3460cb6b3:index.html:generic-api-key:967
+
