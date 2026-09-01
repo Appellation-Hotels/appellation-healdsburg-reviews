@@ -1,0 +1,4 @@
+# Fingerprints of gitleaks findings that were checked and are known to be safe
+# (e.g. a public "anon"/publishable key). One per line, in the form
+# <commit>:<path>:<rule-id>:<line>, with a comment saying why it is safe.
+# Real secrets never go here: rotate them instead.

@@ -1,0 +1,10 @@
+# Code owners for this repo. When a pull request is opened, the owners listed
+# here are asked to review it and get an email. Once the protect-main ruleset
+# is switched on, nobody can push straight to main: every change goes through
+# a pull request, and a contributor's pull request needs an approving review
+# from one of the owners. Repo admins (the org owners) may merge their own
+# pull requests without waiting for that approval.
+#
+# Add a line like  /some/folder/  @user  to give a sub-folder a different owner.
+
+* @cweaving1 @th1-ai-base

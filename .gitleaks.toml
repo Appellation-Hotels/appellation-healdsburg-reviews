@@ -1,0 +1,3 @@
+# Repo-level gitleaks config — extends the default ruleset.
+[extend]
+useDefault = true

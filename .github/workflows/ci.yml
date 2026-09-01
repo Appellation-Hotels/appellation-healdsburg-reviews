@@ -1,0 +1,28 @@
+name: ci
+
+# Scans the full git history for committed secrets on every pull request and
+# on every push to main. A red result means a credential is in the history
+# and should be rotated; it is not something to silence. A finding that was
+# checked and is known to be safe (e.g. a public "publishable" key) goes in
+# .gitleaksignore with a note saying why.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  secrets-scan:
+    name: secrets-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run gitleaks over full history
+        run: |
+          curl -sSfL -o gitleaks.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz
+          echo "9991e0b2903da4c8f6122b5c3186448b927a5da4deef1fe45271c3793f4ee29c  gitleaks.tgz" | sha256sum -c -
+          tar -xzf gitleaks.tgz gitleaks
+          ./gitleaks git --no-banner --redact -v .
